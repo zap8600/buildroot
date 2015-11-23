@@ -336,6 +336,17 @@ config BR2_GCC_VERSION_4_8_X
 	  Support for gcc version 4.8.x has been removed. The current
 	  default version (5.x or later) has been selected instead.
 
+config BR2_XTENSA_CUSTOM_NAME
+	string "The BR2_XTENSA_CUSTOM_NAME option has been renamed"
+	help
+	  The BR2_XTENSA_CUSTOM_NAME option has been renamed
+	  to BR2_XTENSA_CORE_NAME.
+
+config BR2_XTENSA_CUSTOM_NAME_WRAP
+	bool
+	default y if BR2_XTENSA_CUSTOM_NAME != ""
+	select BR2_LEGACY
+
 ###############################################################################
 comment "Legacy options removed in 2017.05"
 

@@ -1,0 +1,35 @@
+comment "Xtensa Remote Processing needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL
+
+config BR2_PACKAGE_XRP
+	bool "XRP"
+	depends on BR2_LINUX_KERNEL
+	help
+	  XRP is the low level Xtensa Remote Processing
+
+if BR2_PACKAGE_XRP
+
+config BR2_PACKAGE_XRP_SOURCE_TREE
+	string "XRP source tree location"
+	help
+	  Location of XRP git tree
+
+config BR2_PACKAGE_XRP_XTENSA_TOOLS
+	string "Xtensa tools location"
+	help
+	  Xtensa tools location
+
+config BR2_PACKAGE_XRP_XTENSA_NEED_SYSTEM
+	bool "Separate Xtensa core registry location"
+	default n
+	help
+	  Whether tools know where their core registry is or not (and so
+	  need --xtensa-system= parameter).
+
+config BR2_PACKAGE_XRP_XTENSA_SYSTEM
+	string "Xtensa core registry location"
+	depends on BR2_PACKAGE_XRP_XTENSA_NEED_SYSTEM
+	help
+	  Xtensa core registry location
+
+endif

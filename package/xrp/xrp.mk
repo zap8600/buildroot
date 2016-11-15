@@ -20,7 +20,7 @@ define XRP_BUILD_CMDS
 	PATH=$(BR2_PACKAGE_XRP_XTENSA_TOOLS):$$PATH \
 	-C $(@D)/xrp-dsp \
 	DSP_CORE=visionp6cnn_ao \
-	LSP_DIR=MW-MP/P6_$$CORE/xtensa-elf/lib && \
+	LSP=MW-MP/P6_$$CORE/xtensa-elf/lib/sim-stack-local && \
     mv $(@D)/xrp-dsp/xrp-dsp{,$$CORE} ; \
   done
 endef

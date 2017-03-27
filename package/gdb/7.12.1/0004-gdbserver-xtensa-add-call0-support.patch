@@ -1,0 +1,78 @@
+From 6342dfc47b0451228def1920d10a3fa5946a2f9a Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Fri, 18 Nov 2016 08:58:21 -0800
+Subject: [PATCH 4/8] gdbserver: xtensa: add call0 support
+
+Correctly handle a0- registers on requests from remote gdb. This fixes
+
+  'Register 1 is not available'
+
+and subsequent assertion in the remote gdb connecting to the gdbserver:
+
+  'findvar.c:291: internal-error: value_of_register_lazy:
+    Assertion `frame_id_p(get_frame_id (frame))' failed.'
+
+The register structure is the same for windowed and call0 ABIs because
+currently linux kernel internally requires windowed registers, so they
+are always present.
+
+gdb/gdbserver/
+2017-01-18  Max Filippov  <jcmvbkbc@gmail.com>
+
+	* linux-xtensa-low.c (xtensa_fill_gregset): Call collect_register
+	for all registers in a0_regnum..a0_regnum + C0_NREGS range.
+	(xtensa_store_gregset): Call supply_register for all registers in
+	a0_regnum..a0_regnum + C0_NREGS range.
+---
+ gdb/gdbserver/linux-xtensa-low.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/gdb/gdbserver/linux-xtensa-low.c b/gdb/gdbserver/linux-xtensa-low.c
+index 98c0bf2..80b5d33 100644
+--- a/gdb/gdbserver/linux-xtensa-low.c
++++ b/gdb/gdbserver/linux-xtensa-low.c
+@@ -59,6 +59,20 @@ xtensa_fill_gregset (struct regcache *regcache, void *buf)
+       ptr += register_size (tdesc, i);
+     }
+ 
++  if (XSHAL_ABI == XTHAL_ABI_CALL0)
++    {
++      int a0_regnum = find_regno (tdesc, "a0");
++      ptr = (char *) &rset[R_A0 + 4 * rset[R_WB]];
++
++      for (i = a0_regnum; i < a0_regnum + C0_NREGS; i++)
++	{
++	  if ((4 * rset[R_WB] + i - a0_regnum) == XCHAL_NUM_AREGS)
++	    ptr = (char *) &rset[R_A0];
++	  collect_register (regcache, i, ptr);
++	  ptr += register_size (tdesc, i);
++	}
++    }
++
+   /* Loop registers, if hardware has it.  */
+ 
+ #if XCHAL_HAVE_LOOPS
+@@ -94,6 +108,20 @@ xtensa_store_gregset (struct regcache *regcache, const void *buf)
+       ptr += register_size (tdesc, i);
+     }
+ 
++  if (XSHAL_ABI == XTHAL_ABI_CALL0)
++    {
++      int a0_regnum = find_regno (tdesc, "a0");
++      ptr = (char *) &rset[R_A0 + (4 * rset[R_WB]) % XCHAL_NUM_AREGS];
++
++      for (i = a0_regnum; i < a0_regnum + C0_NREGS; i++)
++	{
++	  if ((4 * rset[R_WB] + i - a0_regnum) == XCHAL_NUM_AREGS)
++	    ptr = (char *) &rset[R_A0];
++	  supply_register (regcache, i, ptr);
++	  ptr += register_size (tdesc, i);
++	}
++    }
++
+   /* Loop registers, if hardware has it.  */
+ 
+ #if XCHAL_HAVE_LOOPS
+-- 
+2.1.4
+

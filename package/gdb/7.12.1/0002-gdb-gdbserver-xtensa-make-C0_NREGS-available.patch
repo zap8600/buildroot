@@ -1,0 +1,44 @@
+From 0d9b9d5c353f56b0b0be6d489970663eb0a1aa80 Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 21 Feb 2017 17:14:37 -0800
+Subject: [PATCH 2/8] gdb: gdbserver: xtensa: make C0_NREGS available
+
+Both gdb and gdbserver need this definition to properly work with call0
+ABI. Make it available to both.
+
+gdb/
+2017-02-21  Max Filippov  <jcmvbkbc@gmail.com>
+
+	* arch/xtensa.h (C0_NREGS): Add definition.
+	* xtensa-tdep.c (C0_NREGS): Remove definition.
+---
+ gdb/arch/xtensa.h | 2 ++
+ gdb/xtensa-tdep.c | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gdb/arch/xtensa.h b/gdb/arch/xtensa.h
+index 2c328c8..63bbec6 100644
+--- a/gdb/arch/xtensa.h
++++ b/gdb/arch/xtensa.h
+@@ -43,4 +43,6 @@ typedef struct
+ #define XTENSA_ELF_NGREG (sizeof (xtensa_elf_gregset_t) \
+ 			  / sizeof (xtensa_elf_greg_t))
+ 
++#define C0_NREGS   16	/* Number of A-registers to track in call0 ABI.  */
++
+ #endif
+diff --git a/gdb/xtensa-tdep.c b/gdb/xtensa-tdep.c
+index efbd5ab..0000155 100644
+--- a/gdb/xtensa-tdep.c
++++ b/gdb/xtensa-tdep.c
+@@ -942,7 +942,6 @@ typedef struct xtensa_windowed_frame_cache
+ 
+ #define C0_MAXOPDS  3	/* Maximum number of operands for prologue
+ 			   analysis.  */
+-#define C0_NREGS   16	/* Number of A-registers to track.  */
+ #define C0_CLESV   12	/* Callee-saved registers are here and up.  */
+ #define C0_SP	    1	/* Register used as SP.  */
+ #define C0_FP	   15	/* Register used as FP.  */
+-- 
+2.1.4
+

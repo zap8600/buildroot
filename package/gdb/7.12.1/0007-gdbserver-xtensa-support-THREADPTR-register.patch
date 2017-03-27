@@ -1,0 +1,58 @@
+From 2555a336d2e494b2a29faa1bd217fa1ade2c4634 Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Fri, 18 Nov 2016 16:08:48 -0800
+Subject: [PATCH 7/8] gdbserver: xtensa: support THREADPTR register
+
+Provide aceess to the THREADPTR register to remote gdb.
+
+gdb/gdbserver/
+2017-01-18  Max Filippov  <jcmvbkbc@gmail.com>
+
+	* linux-xtensa-low.c (regnum::R_THREADPTR): New enum member.
+	(xtensa_fill_gregset): Call collect_register_by_name for
+	threadptr register.
+	(xtensa_store_gregset): Call supply_register_by_name for
+	threadptr register.
+---
+ gdb/gdbserver/linux-xtensa-low.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/gdb/gdbserver/linux-xtensa-low.c b/gdb/gdbserver/linux-xtensa-low.c
+index 80b5d33..214abdc 100644
+--- a/gdb/gdbserver/linux-xtensa-low.c
++++ b/gdb/gdbserver/linux-xtensa-low.c
+@@ -36,6 +36,7 @@ enum regnum {
+ 	R_LBEG,	R_LEND,	R_LCOUNT,
+ 	R_SAR,
+ 	R_WS, R_WB,
++	R_THREADPTR,
+ 	R_A0 = 64
+ };
+ 
+@@ -86,6 +87,11 @@ xtensa_fill_gregset (struct regcache *regcache, void *buf)
+   collect_register_by_name (regcache, "ps", (char*)&rset[R_PS]);
+   collect_register_by_name (regcache, "windowbase", (char*)&rset[R_WB]);
+   collect_register_by_name (regcache, "windowstart", (char*)&rset[R_WS]);
++
++#if XCHAL_HAVE_THREADPTR
++  collect_register_by_name (regcache, "threadptr",
++			    (char *) &rset[R_THREADPTR]);
++#endif
+ }
+ 
+ static void
+@@ -135,6 +141,11 @@ xtensa_store_gregset (struct regcache *regcache, const void *buf)
+   supply_register_by_name (regcache, "ps", (char*)&rset[R_PS]);
+   supply_register_by_name (regcache, "windowbase", (char*)&rset[R_WB]);
+   supply_register_by_name (regcache, "windowstart", (char*)&rset[R_WS]);
++
++#if XCHAL_HAVE_THREADPTR
++  supply_register_by_name (regcache, "threadptr",
++			   (char *) &rset[R_THREADPTR]);
++#endif
+ }
+ 
+ /* Xtensa GNU/Linux PTRACE interface includes extended register set.  */
+-- 
+2.1.4
+

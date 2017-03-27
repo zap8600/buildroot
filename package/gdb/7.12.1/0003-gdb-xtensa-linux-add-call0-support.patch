@@ -1,0 +1,73 @@
+From bbf400a8b1f96b7bbdaa628a6545830f7125347e Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Fri, 18 Nov 2016 09:48:01 -0800
+Subject: [PATCH 3/8] gdb: xtensa-linux: add call0 support
+
+Correctly handle a0- registers. This allows debugging call0 code in
+linux natively.
+The register structure is the same for windowed and call0 ABIs because
+currently linux kernel internally requires windowed registers, so they are
+always present.
+
+gdb/
+2017-01-18  Max Filippov  <jcmvbkbc@gmail.com>
+
+	* xtensa-linux-nat.c (fill_gregset): Call regcache_raw_collect
+	for a single specified register or for all registers in
+	a0_base..a0_base + C0_NREGS range.
+	(supply_gregset_reg): Call regcache_raw_supply for a single
+	specified register or for all registers in a0_base..a0_base +
+	C0_NREGS range.
+---
+ gdb/xtensa-linux-nat.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/gdb/xtensa-linux-nat.c b/gdb/xtensa-linux-nat.c
+index afe15f6..e5a2d84 100644
+--- a/gdb/xtensa-linux-nat.c
++++ b/gdb/xtensa-linux-nat.c
+@@ -94,6 +94,20 @@ fill_gregset (const struct regcache *regcache,
+ 			      gdbarch_tdep (gdbarch)->ar_base + i,
+ 			      &regs->ar[i]);
+     }
++  if (regnum >= gdbarch_tdep (gdbarch)->a0_base
++      && regnum < gdbarch_tdep (gdbarch)->a0_base + C0_NREGS)
++    regcache_raw_collect (regcache, regnum,
++			  &regs->ar[(4 * regs->windowbase + regnum
++				     - gdbarch_tdep (gdbarch)->a0_base)
++			  % gdbarch_tdep (gdbarch)->num_aregs]);
++  else if (regnum == -1)
++    {
++      for (i = 0; i < C0_NREGS; ++i)
++	regcache_raw_collect (regcache,
++			      gdbarch_tdep (gdbarch)->a0_base + i,
++			      &regs->ar[(4 * regs->windowbase + i)
++			      % gdbarch_tdep (gdbarch)->num_aregs]);
++    }
+ }
+ 
+ static void
+@@ -146,6 +160,20 @@ supply_gregset_reg (struct regcache *regcache,
+ 			      gdbarch_tdep (gdbarch)->ar_base + i,
+ 			      &regs->ar[i]);
+     }
++  if (regnum >= gdbarch_tdep (gdbarch)->a0_base
++      && regnum < gdbarch_tdep (gdbarch)->a0_base + C0_NREGS)
++    regcache_raw_supply (regcache, regnum,
++			 &regs->ar[(4 * regs->windowbase + regnum
++				    - gdbarch_tdep (gdbarch)->a0_base)
++			 % gdbarch_tdep (gdbarch)->num_aregs]);
++  else if (regnum == -1)
++    {
++      for (i = 0; i < C0_NREGS; ++i)
++	regcache_raw_supply (regcache,
++			     gdbarch_tdep (gdbarch)->a0_base + i,
++			     &regs->ar[(4 * regs->windowbase + i)
++			     % gdbarch_tdep (gdbarch)->num_aregs]);
++    }
+ }
+ 
+ void
+-- 
+2.1.4
+

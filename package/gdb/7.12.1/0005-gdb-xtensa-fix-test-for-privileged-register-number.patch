@@ -1,0 +1,42 @@
+From e4e1be225606b91ce30b6527cd50d0570a5321aa Mon Sep 17 00:00:00 2001
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 21 Feb 2017 15:41:31 -0800
+Subject: [PATCH 5/8] gdb: xtensa: fix test for privileged register number
+
+There are no a0-a15 pseudoregisters at the top of the register set in
+call0 registers layout. All registers above gdbarch_num_regs (gdbarch)
+are privileged. Treat them as such. This fixes the following gdb
+assertion seen when 'finish' command is invoked:
+
+  regcache.c:649: internal-error: register_status
+  regcache_raw_read(regcache*, int, gdb_byte*):
+  Assertion `regnum >= 0 && regnum < regcache->descr->nr_raw_registers'
+  failed.
+
+gdb/
+2017-02-21  Max Filippov  <jcmvbkbc@gmail.com>
+
+	* xtensa-tdep.c (xtensa_pseudo_register_read): Treat all
+	registers above gdbarch_num_regs (gdbarch) as privileged in
+	call0 ABI.
+---
+ gdb/xtensa-tdep.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gdb/xtensa-tdep.c b/gdb/xtensa-tdep.c
+index 0000155..2338ac1 100644
+--- a/gdb/xtensa-tdep.c
++++ b/gdb/xtensa-tdep.c
+@@ -578,7 +578,8 @@ xtensa_pseudo_register_read (struct gdbarch *gdbarch,
+   /* We have to find out how to deal with priveleged registers.
+      Let's treat them as pseudo-registers, but we cannot read/write them.  */
+      
+-  else if (regnum < gdbarch_tdep (gdbarch)->a0_base)
++  else if (gdbarch_tdep (gdbarch)->call_abi == CallAbiCall0Only
++	   || regnum < gdbarch_tdep (gdbarch)->a0_base)
+     {
+       buffer[0] = (gdb_byte)0;
+       buffer[1] = (gdb_byte)0;
+-- 
+2.1.4
+

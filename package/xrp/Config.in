@@ -9,6 +9,24 @@ config BR2_PACKAGE_XRP
 
 if BR2_PACKAGE_XRP
 
+config BR2_PACKAGE_XRP_USERSPACE
+	bool "Build XRP userspace example code"
+	default y
+	help
+	  XRP package contains kernel driver, host userspace code and
+	  firmware code.
+	  Say 'Y' here to build host userspace code.
+
+config BR2_PACKAGE_XRP_FIRMWARE
+	bool "Build XRP example firmware"
+	default y
+	help
+	  XRP package contains kernel driver, host userspace code and
+	  firmware code.
+	  Say 'Y' here to build example firmware.
+
+if BR2_PACKAGE_XRP_FIRMWARE
+
 config BR2_PACKAGE_XRP_XTENSA_TOOLS
 	string "Xtensa tools location"
 	help
@@ -47,4 +65,5 @@ config BR2_PACKAGE_XRP_DSP_LSP
 	  Printf format string for LSP name for each core. May use %d or
 	  similar format placeholder.
 
+endif
 endif

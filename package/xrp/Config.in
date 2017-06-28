@@ -9,11 +9,6 @@ config BR2_PACKAGE_XRP
 
 if BR2_PACKAGE_XRP
 
-config BR2_PACKAGE_XRP_SOURCE_TREE
-	string "XRP source tree location"
-	help
-	  Location of XRP git tree
-
 config BR2_PACKAGE_XRP_XTENSA_TOOLS
 	string "Xtensa tools location"
 	help

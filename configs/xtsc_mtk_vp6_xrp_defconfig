@@ -19,7 +19,6 @@ BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_USE_CUSTOM_DTS=y
 BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="$(TOPDIR)/board/xtsc/mtk-vp6-xrp/mtk_vp6_xrp.dts"
 BR2_PACKAGE_XRP=y
-BR2_PACKAGE_XRP_SOURCE_TREE="$(TOPDIR)/../xrp"
 BR2_PACKAGE_XRP_XTENSA_TOOLS="/opt/xtensa/XtDevTools/install/tools/RG-2017.5-linux/XtensaTools/bin"
 BR2_PACKAGE_XRP_DSP_CORE_NAME="MTK_VP6"
 BR2_PACKAGE_XRP_DSP_LSP="$(TOPDIR)/../lsps/mtk-vp6/package/cores/P6_%d/xtensa-elf/lib/sim-stacklocal"

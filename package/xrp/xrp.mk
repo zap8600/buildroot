@@ -4,10 +4,10 @@
 #
 ################################################################################
 
-XRP_VERSION = xrp-20170117
+XRP_VERSION = xrp-20170621
 XRP_SITE = $(call github,foss-xtensa,xrp,$(XRP_VERSION))
 XRP_SOURCE = $(XRP_VERSION).tar.gz
-XRP_LICENSE = ?
+XRP_LICENSE = MIT, GPL
 
 XRP_CONFIG-$(BR2_PACKAGE_XRP_XTENSA_NEED_SYSTEM) = XTENSA_SYSTEM=$(BR2_PACKAGE_XRP_XTENSA_SYSTEM)
 

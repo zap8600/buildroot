@@ -7,6 +7,7 @@
 XRP_VERSION = 3221fbcf64f48e7def2db32baf11b80fdeb3c389
 XRP_SITE = $(call github,foss-xtensa,xrp,$(XRP_VERSION))
 XRP_SOURCE = xrp-$(XRP_VERSION).tar.gz
+BR_NO_CHECK_HASH_FOR += $(XRP_SOURCE)
 XRP_LICENSE = MIT, GPL
 
 ifneq ($(BR2_PACKAGE_XRP_USERSPACE),y)

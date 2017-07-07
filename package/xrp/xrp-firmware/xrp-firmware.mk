@@ -69,7 +69,11 @@ define XRP_FIRMWARE_INSTALL_TARGET_CMDS
   done
 endef
 
-HOST_XRP_FIRMWARE_INSTALL_TARGET_CMDS = $(XRP_FIRMWARE_INSTALL_TARGET_CMDS)
+define HOST_XRP_FIRMWARE_INSTALL_CMDS
+  for (( CORE=0 ; CORE < $(BR2_PACKAGE_$(PKG)_DSP_NUM_CORES); ++CORE )) ; do \
+    $(INSTALL) -D -m 0644 $(@D)/xrp-example/$($(PKG)_IMAGE_NAME)$${CORE} $(HOST_DIR)/lib/firmware/xrp$${CORE}.elf ; \
+  done
+endef
 
 $(eval $(generic-package))
 $(eval $(host-generic-package))

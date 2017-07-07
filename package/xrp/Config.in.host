@@ -14,7 +14,6 @@ config BR2_PACKAGE_HOST_XRP_EXAMPLE
 
 config BR2_PACKAGE_HOST_XRP_FIRMWARE
 	bool "host XRP firmware (fast simulation)"
-	default y
 	help
 	  XRP package contains fast simulation userspace library and example
 	  code and firmware library and example code.
@@ -29,7 +28,6 @@ config BR2_PACKAGE_HOST_XRP_FIRMWARE_XTENSA_TOOLS
 
 config BR2_PACKAGE_HOST_XRP_FIRMWARE_XTENSA_NEED_SYSTEM
 	bool "Separate Xtensa core registry location"
-	default n
 	help
 	  Whether tools know where their core registry is or not (and so
 	  need --xtensa-system= parameter).

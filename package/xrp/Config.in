@@ -37,7 +37,6 @@ endif
 
 config BR2_PACKAGE_XRP_FIRMWARE
 	bool "XRP firmware"
-	default y
 	help
 	  XRP package contains kernel driver, host userspace library and
 	  example code and firmware library and example code.

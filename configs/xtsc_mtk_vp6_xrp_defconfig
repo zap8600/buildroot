@@ -1,7 +1,7 @@
 BR2_xtensa=y
 BR2_XTENSA_CUSTOM=y
 BR2_XTENSA_CUSTOM_NAME="dc233c"
-BR2_XTENSA_OVERLAY_DIR="board/xtsc/mw-mp"
+BR2_XTENSA_OVERLAY_DIR="board/xtsc/mtk-vp6-xrp"
 BR2_KERNEL_HEADERS_4_8=y
 BR2_TOOLCHAIN_BUILDROOT_INET_RPC=y
 BR2_TOOLCHAIN_BUILDROOT_WCHAR=y
@@ -21,7 +21,7 @@ BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="$(TOPDIR)/board/xtsc/mtk-vp6-xrp/mtk_vp6_xrp.d
 BR2_PACKAGE_XRP=y
 BR2_PACKAGE_XRP_XTENSA_TOOLS="/opt/xtensa/XtDevTools/install/tools/RG-2017.5-linux/XtensaTools/bin"
 BR2_PACKAGE_XRP_DSP_CORE_NAME="MTK_VP6"
-BR2_PACKAGE_XRP_DSP_LSP="$(TOPDIR)/../lsps/mtk-vp6/package/cores/P6_%d/xtensa-elf/lib/sim-stacklocal"
+BR2_PACKAGE_XRP_DSP_LSP="$(TOPDIR)/board/xtsc/mtk-vp6-xrp/lsp/P6_%d/xtensa-elf/lib/sim-stacklocal"
 BR2_TARGET_ROOTFS_EXT2=y
 BR2_TARGET_ROOTFS_EXT2_4=y
 # BR2_TARGET_ROOTFS_TAR is not set

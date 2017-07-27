@@ -37,7 +37,7 @@
 	xvp@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "cdns,xrp";
+		compatible = "cdns,xrp-hw-simple";
 		reg = <0xfd001000 0x00000200
 		       0xf0000000 0x00001000
 		       0xf0001000 0x00fff000>;
@@ -53,12 +53,14 @@
 			  0x7ff00000 0xc0000000 0x00040000
 			  0x7ff40000 0xc0040000 0x00040000
 			  0xf0000000 0xf0000000 0x0d000000>;
+		dsp@0 {
+		};
 	};
 
 	xvp@1 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "cdns,xrp";
+		compatible = "cdns,xrp-hw-simple";
 		reg = <0xfd002000 0x00000200
 		       0xf1000000 0x00001000
 		       0xf1001000 0x00fff000>;
@@ -74,6 +76,8 @@
 			  0x7ff00000 0xc0080000 0x00040000
 			  0x7ff40000 0xc00c0000 0x00040000
 			  0xf0000000 0xf0000000 0x0d000000>;
+		dsp@0 {
+		};
 	};
 
 	soc {

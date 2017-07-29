@@ -40,7 +40,7 @@
 		compatible = "cdns,xrp-hw-simple";
 		reg = <0xfd001000 0x00000200
 		       0xf0000000 0x00001000
-		       0xf0001000 0x00fff000>;
+		       0xf0001000 0x03fff000>;
 		device-irq = <0 1 5>; /* offset, bit#, IRQ# */
 		device-irq-mode = <1>;
 		host-irq = <0xfffff000 0>; /* offset, bit# */
@@ -62,8 +62,8 @@
 		#size-cells = <1>;
 		compatible = "cdns,xrp-hw-simple";
 		reg = <0xfd002000 0x00000200
-		       0xf1000000 0x00001000
-		       0xf1001000 0x00fff000>;
+		       0xf4000000 0x00001000
+		       0xf4001000 0x03fff000>;
 		device-irq = <0 1 5>; /* offset, bit#, IRQ# */
 		device-irq-mode = <1>;
 		host-irq = <0xffffe000 0>; /* offset, bit# */

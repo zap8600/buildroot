@@ -12,7 +12,12 @@
 define suitable-host-package
 $(shell support/dependencies/check-host-$(1).sh $(2))
 endef
--include $(sort $(wildcard support/dependencies/check-host-*.mk))
+
+# Make sure that if the tar dependency is present it is always the first one in
+# the DEPENDENCIES_HOST_PREREQ, otherwise sources for other dependencies will
+# fail to unpack.
+-include support/dependencies/check-host-tar.mk
+-include $(sort $(filter-out %/check-host-tar.mk,$(wildcard support/dependencies/check-host-*.mk)))
 
 ifeq ($(BR2_CCACHE),y)
 DEPENDENCIES_HOST_PREREQ += host-ccache

@@ -14,10 +14,6 @@ config BR2_HOSTARCH
 	string
 	option env="HOSTARCH"
 
-config BR2_EXTERNAL
-	string
-	option env="BR2_EXTERNAL"
-
 config BR2_BUILD_DIR
 	string
 	option env="BUILD_DIR"
@@ -27,9 +23,14 @@ config BR2_HOST_GCC_VERSION
 	string
 	option env="HOST_GCC_VERSION"
 
+config BR2_HOST_GCC_AT_LEAST_4_5
+	bool
+	default y if BR2_HOST_GCC_VERSION = "4 5"
+
 config BR2_HOST_GCC_AT_LEAST_4_6
 	bool
 	default y if BR2_HOST_GCC_VERSION = "4 6"
+	select BR2_HOST_GCC_AT_LEAST_4_5
 
 config BR2_HOST_GCC_AT_LEAST_4_7
 	bool
@@ -56,6 +57,11 @@ config BR2_HOST_GCC_AT_LEAST_6
 	default y if BR2_HOST_GCC_VERSION = "6"
 	select BR2_HOST_GCC_AT_LEAST_5
 
+config BR2_HOST_GCC_AT_LEAST_7
+	bool
+	default y if BR2_HOST_GCC_VERSION = "7"
+	select BR2_HOST_GCC_AT_LEAST_6
+
 # Hidden boolean selected by packages in need of Java in order to build
 # (example: xbmc)
 config BR2_NEEDS_HOST_JAVA
@@ -81,6 +87,11 @@ config BR2_HOSTARCH_NEEDS_IA32_LIBS
 # binaries with the host compiler, even on 64 bits build machines (e.g
 # bootloaders).
 config BR2_HOSTARCH_NEEDS_IA32_COMPILER
+	bool
+
+# Hidden boolean selected by packages that need the host to have an
+# UTF8 locale.
+config BR2_NEEDS_HOST_UTF8_LOCALE
 	bool
 
 source "arch/Config.in"
@@ -151,6 +162,13 @@ config BR2_XZCAT
 	help
 	  Command to be used to extract a xz'ed file to stdout.
 	  Default is "xzcat"
+
+config BR2_LZCAT
+	string "lzcat command"
+	default "lzip -d -c"
+	help
+	  Command to be used to extract a lzip'ed file to stdout.
+	  Default is "lzip -d -c"
 
 config BR2_TAR_OPTIONS
 	string "Tar options"
@@ -401,13 +419,10 @@ config BR2_DEBUG_3
 endchoice
 endif
 
-choice
-	prompt "strip command for binaries on target"
-	default BR2_STRIP_strip
-
 config BR2_STRIP_strip
-	bool "strip"
+	bool "strip target binaries"
 	depends on !BR2_PACKAGE_HOST_ELF2FLT
+	default y
 	help
 	  Binaries and libraries in the target filesystem will be
 	  stripped using the normal 'strip' command. This allows to save
@@ -415,15 +430,9 @@ config BR2_STRIP_strip
 	  on the target are needed for native debugging, but not when
 	  remote debugging is used.
 
-config BR2_STRIP_none
-	bool "none"
-	help
-	  Do not strip binaries and libraries in the target filesystem.
-endchoice
-
 config BR2_STRIP_EXCLUDE_FILES
 	string "executables that should not be stripped"
-	depends on !BR2_STRIP_none
+	depends on BR2_STRIP_strip
 	default ""
 	help
 	  You may specify a space-separated list of binaries and
@@ -431,7 +440,7 @@ config BR2_STRIP_EXCLUDE_FILES
 
 config BR2_STRIP_EXCLUDE_DIRS
 	string "directories that should be skipped when stripping"
-	depends on !BR2_STRIP_none
+	depends on BR2_STRIP_strip
 	default ""
 	help
 	  You may specify a space-separated list of directories that
@@ -523,6 +532,8 @@ config BR2_GOOGLE_BREAKPAD_ENABLE
 	bool "Enable google-breakpad support"
 	select BR2_PACKAGE_GOOGLE_BREAKPAD
 	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_HOST_GCC_AT_LEAST_4_8 # C++11
+	depends on BR2_TOOLCHAIN_GCC_AT_LEAST_4_8 # C++11
 	depends on BR2_USE_WCHAR
 	depends on BR2_TOOLCHAIN_HAS_THREADS
 	depends on (BR2_TOOLCHAIN_USES_GLIBC || BR2_TOOLCHAIN_USES_UCLIBC)
@@ -706,6 +717,12 @@ config BR2_REPRODUCIBLE
 	  this allows to generate exactly identical binaries from one
 	  build to the other, including on different machines.
 
+	  The current implementation is restricted to builds with the
+	  same output directory. Many (absolute) paths are recorded in
+	  intermediary files, and it is very likely that some of these
+	  paths leak into the target rootfs. If you build with the
+	  same O=... path, however, the result is identical.
+
 	  This is labeled as an experimental feature, as not all
 	  packages behave properly to ensure reproducibility.
 
@@ -728,12 +745,5 @@ source "boot/Config.in"
 source "package/Config.in.host"
 
 source "Config.in.legacy"
-
-menu "User-provided options"
-	depends on BR2_EXTERNAL != "support/dummy-external"
-
-source "$BR2_EXTERNAL/Config.in"
-
-endmenu
 
 source "$BR2_BUILD_DIR/.br2-external.in"

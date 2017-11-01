@@ -4,25 +4,17 @@
 #
 ################################################################################
 
-MOTION_VERSION = release-3.4.1
+MOTION_VERSION = release-4.0.1
 MOTION_SITE = $(call github,Motion-Project,motion,$(MOTION_VERSION))
-MOTION_LICENSE = GPLv2
+MOTION_LICENSE = GPL-2.0
 MOTION_LICENSE_FILES = COPYING
 MOTION_DEPENDENCIES = host-pkgconf jpeg
-# From git and configure.ac is patched
+# From git and patched configure.ac
 MOTION_AUTORECONF = YES
-
-# This patch fixes detection of sqlite when cross-compiling
-MOTION_PATCH = \
-	https://github.com/Motion-Project/motion/commit/709f626b7ef83a2bb3ef1f77205276207ab27196.patch
-
-# This patch adds --with-sdl=[DIR] option to fix detection of sdl-config
-MOTION_PATCH += \
-	https://github.com/Motion-Project/motion/commit/72193ccaff83fcb074c9aaa37c5691a8d8a18c7c.patch
 
 # motion does not use any specific function of jpeg-turbo, so just relies on
 # jpeg selection
-MOTION_CONF_OPTS += --without-jpeg-turbo
+MOTION_CONF_OPTS += --without-jpeg-turbo --without-optimizecpu
 
 ifeq ($(BR2_PACKAGE_FFMPEG_SWSCALE),y)
 MOTION_DEPENDENCIES += ffmpeg
@@ -37,6 +29,10 @@ MOTION_CONF_OPTS += \
 	--with-mysql \
 	--with-mysql-include=$(STAGING_DIR)/usr/include/mysql \
 	--with-mysql-lib=$(STAGING_DIR)/usr/lib
+# static link of mysql needs -lz
+ifeq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_ZLIB),yy)
+MOTION_CONF_ENV += LIBS="-lz"
+endif
 else
 MOTION_CONF_OPTS += --without-mysql
 endif
@@ -44,16 +40,19 @@ endif
 ifeq ($(BR2_PACKAGE_POSTGRESQL),y)
 MOTION_DEPENDENCIES += postgresql
 MOTION_CONF_OPTS += \
-	--with-postgresql \
+	--with-pgsql \
 	--with-pgsql-include=$(STAGING_DIR)/usr/include \
 	--with-pgsql-lib=$(STAGING_DIR)/usr/lib
 else
-MOTION_CONF_OPTS += --without-postgresql
+MOTION_CONF_OPTS += --without-pgsql
 endif
 
 ifeq ($(BR2_PACKAGE_SDL),y)
 MOTION_DEPENDENCIES += sdl
 MOTION_CONF_OPTS += --with-sdl=$(STAGING_DIR)/usr
+# overwrite ac_cv_path_CONFIG_SDL in case sdl development is
+# installed on the host
+MOTION_CONF_ENV += ac_cv_path_CONFIG_SDL=$(STAGING_DIR)/usr/bin/sdl-config
 else
 MOTION_CONF_OPTS += --without-sdl
 endif

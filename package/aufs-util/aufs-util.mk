@@ -8,7 +8,7 @@
 AUFS_UTIL_VERSION = $(call qstrip,$(BR2_PACKAGE_AUFS_UTIL_VERSION))
 AUFS_UTIL_SITE = http://git.code.sf.net/p/aufs/aufs-util
 AUFS_UTIL_SITE_METHOD = git
-AUFS_UTIL_LICENSE = GPLv2
+AUFS_UTIL_LICENSE = GPL-2.0
 AUFS_UTIL_LICENSE_FILES = COPYING
 
 AUFS_UTIL_DEPENDENCIES = linux
@@ -41,7 +41,7 @@ AUFS_UTIL_POST_PATCH_HOOKS += AUFS_UTIL_REMOVE_RDU64
 
 # First, we build the host tools, needed to build the target tools.
 define AUFS_UTIL_BUILD_CMDS
-	$(MAKE) -C $(@D) \
+	$(HOST_MAKE_ENV) $(MAKE) -C $(@D) \
 		$(HOST_CONFIGURE_OPTS) \
 		CPPFLAGS="$(AUFS_UTIL_HOST_CPPFLAGS)" \
 		HOSTCC="$(HOSTCC)" HOSTLD="$(HOSTLD)" \

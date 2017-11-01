@@ -12,7 +12,7 @@
 
 	memory@0 {
 		device_type = "memory";
-		reg = <0x00050000 0x07fb0000>;
+		reg = <0x00000000 0x10000000>;
 	};
 
 	cpus {
@@ -34,13 +34,24 @@
 		interrupt-controller;
 	};
 
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		xrp_reserved: xrp@08000000 {
+			compatible = "shared-dma-pool";
+			reg = <0x08000000 0x08000000>;
+			reusable;
+		};
+	};
+
 	xvp@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "cdns,xrp-hw-simple";
-		reg = <0xfd001000 0x00000200
-		       0xf0000000 0x00001000
-		       0xf0001000 0x03fff000>;
+		compatible = "cdns,xrp-hw-simple,cma";
+		reg = <0xfd001000 0x00000200>;
+		memory-region = <&xrp_reserved>;
 		device-irq = <0 1 5>; /* offset, bit#, IRQ# */
 		device-irq-mode = <1>;
 		host-irq = <0xfffff000 0>; /* offset, bit# */
@@ -60,10 +71,9 @@
 	xvp@1 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "cdns,xrp-hw-simple";
-		reg = <0xfd002000 0x00000200
-		       0xf4000000 0x00001000
-		       0xf4001000 0x03fff000>;
+		compatible = "cdns,xrp-hw-simple,cma";
+		reg = <0xfd002000 0x00000200>;
+		memory-region = <&xrp_reserved>;
 		device-irq = <0 1 5>; /* offset, bit#, IRQ# */
 		device-irq-mode = <1>;
 		host-irq = <0xffffe000 0>; /* offset, bit# */

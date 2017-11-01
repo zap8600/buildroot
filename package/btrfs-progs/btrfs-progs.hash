@@ -1,2 +1,2 @@
 # From https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/sha256sums.asc
-sha256	836e6d707abfc155319c072f53d296261cbd17f0e03484a3694b8af48640db83	btrfs-progs-v4.8.1.tar.xz
+sha256 e17a68cc52a27d905b715445e91ddbaa4d42de4847d54836d6ed21e012dabf0e  btrfs-progs-v4.11.tar.xz

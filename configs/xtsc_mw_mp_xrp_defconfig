@@ -1,6 +1,7 @@
 BR2_xtensa=y
 BR2_XTENSA_CUSTOM=y
 BR2_XTENSA_OVERLAY_FILE="https://github.com/foss-xtensa/xtensa-overlay/raw/ef26a471d03e68dfb16ee19fce6de8abee9307e2/xtensa_D_233L_pif128_LC.tar.gz"
+BR2_WGET="wget --passive-ftp -nd -t 3 --no-check-certificate"
 BR2_TOOLCHAIN_BUILDROOT_WCHAR=y
 BR2_PTHREAD_DEBUG=y
 BR2_GCC_VERSION_7_X=y

@@ -1,5 +1,9 @@
 // Build P6_1's components
 
+#ifndef P6_1_BINARY
+#define P6_1_BINARY
+#endif
+
 // Create proc P6_1
 --xtensa_core=visionp6cnn_ao_exls
 --xtensa_params=

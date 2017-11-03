@@ -6,6 +6,14 @@
 // in whole or in part, without the prior written consent of Cadence Design
 // Systems, Inc.
 
+#ifndef SYSTEM_RAM_L_NAME
+#define SYSTEM_RAM_L_NAME SystemRAM_L
+#endif
+
+#ifndef SHARED_RAM_L_NAME
+#define SHARED_RAM_L_NAME SharedRAM_L
+#endif
+
 // Defines for P6_0
 #ifndef P6_0_SIM_CLIENT_FILE
 #define P6_0_SIM_CLIENT_FILE
@@ -80,6 +88,9 @@
 --set_memory_parm=block_write_repeat=1
 --set_memory_parm=burst_write_repeat=1
 --set_memory_parm=request_fifo_depth=2
+// Share with external host
+--set_memory_parm=host_shared_memory=true
+--set_memory_parm=shared_memory_name=$(SYSTEM_RAM_L_NAME)
 --create_memory=SystemRAM_L
 
 // Create SharedRAM_L
@@ -101,8 +112,9 @@
 --set_memory_parm=request_fifo_depth=2
 // Share with external host
 --set_memory_parm=page_byte_size=134217728
---set_memory_parm=shared_memory_user=true
---set_memory_parm=shared_memory_names=SharedRAM_L
+--set_memory_parm=host_shared_memory=true
+--set_memory_parm=shared_memory_name=$(SHARED_RAM_L_NAME)
+--set_memory_parm=deny_fast_access=0xf0000000,0xf0000fff,0xf4000000,0xf4000fff
 --create_memory=SharedRAM_L
 
 // Create SystemROM_L

@@ -29,6 +29,8 @@ endif
 define XRP_FIRMWARE_CONFIGURE_CMDS
 	(cd $($(PKG)_SRCDIR) && rm -rf config.cache && \
 	$($(PKG)_CONF_ENV) \
+	PATH=$(BR2_PACKAGE_$(PKG)_XTENSA_TOOLS):$$PATH \
+	XTENSA_CORE=$(BR2_PACKAGE_$(PKG)_DSP_CORE_NAME) \
 	CONFIG_SITE=/dev/null \
 	./configure \
 		--host=xtensa-elf \

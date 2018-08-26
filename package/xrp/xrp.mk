@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-XRP_VERSION = cb8a012b13b07333c14d4c248ec2d015035cb021
+XRP_VERSION = d328e854aa5d9d249fe1a16ef00393cdee251a15
 XRP_SITE = $(call github,foss-xtensa,xrp,$(XRP_VERSION))
 XRP_SOURCE = xrp-$(XRP_VERSION).tar.gz
 BR_NO_CHECK_HASH_FOR += $(XRP_SOURCE)
@@ -30,7 +30,7 @@ HOST_XRP_CONF_OPTS += --enable-example
 endif
 
 XRP_MODULE_SUBDIRS = xrp-kernel
-XRP_MODULE_MAKE_OPTS = CONFIG_XRP_HW_SIMPLE=m
+XRP_MODULE_MAKE_OPTS = CONFIG_XRP=m CONFIG_XRP_HW_SIMPLE=m
 #XRP_MODULE_MAKE_OPTS += CONFIG_XRP_DEBUG=y
 
 $(eval $(kernel-module))

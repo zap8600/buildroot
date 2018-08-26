@@ -4,24 +4,24 @@
 #
 ################################################################################
 
-XRP_VERSION = e0216987abee56aeaddea57706adf087d7564128
+XRP_VERSION = cb8a012b13b07333c14d4c248ec2d015035cb021
 XRP_SITE = $(call github,foss-xtensa,xrp,$(XRP_VERSION))
 XRP_SOURCE = xrp-$(XRP_VERSION).tar.gz
 BR_NO_CHECK_HASH_FOR += $(XRP_SOURCE)
 XRP_LICENSE = MIT, GPL
 
 ifneq ($(BR2_PACKAGE_XRP_USERSPACE),y)
-XRP_CONF_OPTS += --disable-native
+XRP_CONF_OPTS += --disable-hosted
 endif
 
 ifeq ($(BR2_PACKAGE_XRP_EXAMPLE),y)
 XRP_CONF_OPTS += --enable-example
 endif
 
-HOST_XRP_CONF_OPTS = --disable-native
+HOST_XRP_CONF_OPTS = --disable-hosted
 
 ifeq ($(BR2_PACKAGE_HOST_XRP),y)
-HOST_XRP_CONF_OPTS += --enable-sim
+HOST_XRP_CONF_OPTS += --enable-standalone
 HOST_XRP_DEPENDENCIES += host-dtc
 endif
 

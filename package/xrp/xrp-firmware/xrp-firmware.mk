@@ -16,7 +16,7 @@ XRP_FIRMWARE_CONF_ENV = CC=xt-xcc AR=xt-ar RANLIB=xt-ranlib
 HOST_XRP_FIRMWARE_CONF_ENV = $(XRP_FIRMWARE_CONF_ENV)
 
 XRP_FIRMWARE_CONF_OPTS = --enable-dsp
-HOST_XRP_FIRMWARE_CONF_OPTS = --enable-dsp --disable-native --enable-sim
+HOST_XRP_FIRMWARE_CONF_OPTS = --enable-dsp --disable-hosted --enable-standalone
 
 ifeq ($(BR2_PACKAGE_XRP_FIRMWARE_EXAMPLE),y)
 XRP_FIRMWARE_CONF_OPTS += --enable-example
@@ -46,8 +46,8 @@ endef
 
 HOST_XRP_FIRMWARE_CONFIGURE_CMDS = $(XRP_FIRMWARE_CONFIGURE_CMDS)
 
-XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-nat
-HOST_XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-sim
+XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-hosted
+HOST_XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-standalone
 
 define XRP_FIRMWARE_BUILD_CMDS
   DSP_COMM_BASES=($(call qstrip,$(BR2_PACKAGE_$(PKG)_DSP_COMM_BASE))) ; \

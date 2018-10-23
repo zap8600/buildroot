@@ -15,8 +15,8 @@ XRP_FIRMWARE_CONFIG-$(BR2_PACKAGE_XRP_FIRMWARE_XTENSA_NEED_SYSTEM) = \
 XRP_FIRMWARE_CONF_ENV = CC="xt-xcc --xtensa-core=$(BR2_PACKAGE_$(PKG)_DSP_CORE_NAME)" AR=xt-ar RANLIB=xt-ranlib
 HOST_XRP_FIRMWARE_CONF_ENV = $(XRP_FIRMWARE_CONF_ENV)
 
-XRP_FIRMWARE_CONF_OPTS = --enable-dsp
-HOST_XRP_FIRMWARE_CONF_OPTS = --enable-dsp --disable-hosted --enable-standalone
+XRP_FIRMWARE_CONF_OPTS = --disable-host --enable-dsp --enable-hosted --disable-standalone --disable-single
+HOST_XRP_FIRMWARE_CONF_OPTS = --disable-host --enable-dsp --disable-hosted --enable-standalone --disable-single
 
 ifeq ($(BR2_PACKAGE_XRP_FIRMWARE_EXAMPLE),y)
 XRP_FIRMWARE_CONF_OPTS += --enable-example

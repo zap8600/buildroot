@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-XRP_VERSION = eceb7762044ff6d4085f004a14ccee48ebb483e4
+XRP_VERSION = bdbabfe58e07e9d43a65c70361693213b6d81c95
 XRP_SITE = $(call github,foss-xtensa,xrp,$(XRP_VERSION))
 XRP_SOURCE = xrp-$(XRP_VERSION).tar.gz
 BR_NO_CHECK_HASH_FOR += $(XRP_SOURCE)

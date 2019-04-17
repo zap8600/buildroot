@@ -20,6 +20,8 @@ HOST_XRP_FIRMWARE_CONF_OPTS = --disable-host --enable-dsp --disable-hosted --ena
 
 ifeq ($(BR2_PACKAGE_XRP_FIRMWARE_EXAMPLE),y)
 XRP_FIRMWARE_CONF_OPTS += --enable-example
+XRP_FIRMWARE_CONF_OPTS += --enable-port=simple-xos
+#XRP_FIRMWARE_CONF_OPTS += CFLAGS=-DDEBUG
 endif
 
 ifeq ($(BR2_PACKAGE_HOST_XRP_FIRMWARE_EXAMPLE),y)

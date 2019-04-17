@@ -57,6 +57,7 @@
 		host-irq = <0xfffff000 0>; /* offset, bit# */
 		host-irq-mode = <2>;
 		interrupts = <15 0>;
+		queue-priority = <7 5 6>;
 		firmware-name = "xrp0.elf";
 		ranges = <0x00000000 0x00000000 0x10000000
 			  0x3ffc0000 0xc0000000 0x00020000
@@ -79,6 +80,7 @@
 		host-irq = <0xffffe000 0>; /* offset, bit# */
 		host-irq-mode = <2>;
 		interrupts = <15 0>;
+		queue-priority = <7 6 5>;
 		firmware-name = "xrp1.elf";
 		ranges = <0x00000000 0x00000000 0x10000000
 			  0x3ffc0000 0xc0040000 0x00020000

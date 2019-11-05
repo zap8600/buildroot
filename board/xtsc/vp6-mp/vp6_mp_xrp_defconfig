@@ -28,7 +28,7 @@ CONFIG_HIGHMEM=y
 CONFIG_CMDLINE_BOOL=y
 CONFIG_CMDLINE="console=ttyS0,38400 eth0=tuntap,,tap0 ip=192.168.168.5:192.168.168.1 root=nfs nfsroot=192.168.168.1:/opt/montavista/pro/devkit/xtensa/linux_be/target"
 CONFIG_USE_OF=y
-CONFIG_BUILTIN_DTB="vp6_mp_xrp"
+CONFIG_BUILTIN_DTB_SOURCE="vp6_mp_xrp"
 CONFIG_BLK_DEV_SIMDISK=y
 CONFIG_BLK_DEV_SIMDISK_COUNT=1
 CONFIG_SIMDISK0_FILENAME="rootfs.ext2"

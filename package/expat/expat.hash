@@ -1,7 +1,7 @@
-# From https://sourceforge.net/projects/expat/files/expat/2.2.5/
-md5	789e297f547980fc9ecc036f9a070d49		expat-2.2.5.tar.bz2
-sha1	490659abd7d6c6d4cb4e60c945a15fbf081564f6	expat-2.2.5.tar.bz2
+# From https://sourceforge.net/projects/expat/files/expat/2.2.8/
+md5	cdf54239f892fc7914957f10de1e1c70		expat-2.2.8.tar.xz
+sha1	500a848d7085df06020a86bf64c5f71c0052a080	expat-2.2.8.tar.xz
 
 # Locally calculated
-sha256	d9dc32efba7e74f788fcc4f212a43216fc37cf5f23f4c2339664d473353aedf6	expat-2.2.5.tar.bz2
+sha256	61caa81a49d858afb2031c7b1a25c97174e7f2009aa1ec4e1ffad2316b91779b	expat-2.2.8.tar.xz
 sha256	46336ab2fec900803e2f1a4253e325ac01d998efb09bc6906651f7259e636f76	COPYING

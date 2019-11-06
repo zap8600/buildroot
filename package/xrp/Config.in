@@ -85,9 +85,15 @@ config BR2_PACKAGE_XRP_FIRMWARE_DSP_NUM_CORES
 	  Number of DSP cores served by the XRP driver. A firmware image
 	  is built for each controlled DSP core.
 
+config BR2_PACKAGE_XRP_FIRMWARE_DSP_LSP_XTSYS
+	string "LSP source"
+	default "$(TOPDIR)/board/xtsc/.../subsys.xtsys"
+	help
+	  Location of the subsystem configuration for LSP generation.
+
 config BR2_PACKAGE_XRP_FIRMWARE_DSP_LSP
 	string "LSP name for each core"
-	default "MW-MP/P6_%d/xtensa-elf/lib/sim-stacklocal"
+	default "$(@D)/xrp-example/soc/package/cores/...(DSP_%d)/xtensa-elf/lib/sim-stacklocal"
 	help
 	  Printf format string for LSP name for each core. May use %d or
 	  similar format placeholder.

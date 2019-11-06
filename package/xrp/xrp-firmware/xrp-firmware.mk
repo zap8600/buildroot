@@ -51,6 +51,11 @@ XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-hosted
 HOST_XRP_FIRMWARE_IMAGE_NAME = xrp-dsp-standalone
 
 define XRP_FIRMWARE_BUILD_CMDS
+  $(BR2_PACKAGE_$(PKG)_XTENSA_TOOLS)/../libexec/xt-mbuild \
+	-root $(@D) -socfile $(BR2_PACKAGE_XRP_FIRMWARE_DSP_LSP_XTSYS) \
+	-syspkg $(@D)/xrp-example/soc/package \
+	-sysbuild $(@D)/xrp-example/soc/build \
+	-preclean -build sw -lsps sim,sim-stacklocal ; \
   DSP_COMM_BASES=($(call qstrip,$(BR2_PACKAGE_$(PKG)_DSP_COMM_BASE))) ; \
   for (( CORE=0; CORE < $(BR2_PACKAGE_$(PKG)_DSP_NUM_CORES); ++CORE )) ; do \
     $(MAKE) \

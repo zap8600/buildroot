@@ -2,11 +2,3 @@ This is a DC233-based host + 4 x visionp6_ao DSP subsystem.
 
 DC233 core may be rebuilt from the D_233L_pif128_LC.xcf file.
 VP6 should be available for download from the XPG.
-
-Steps to rebuild LSP from the subsys.xtsys when upgrading to newer Xtensa tools:
-
-$XTENSA_TOOLS/libexec/xt-mbuild -root `pwd` -socfile subsys.xtsys \
-		-preclean -build sw -lsps sim,sim-stacklocal
-rm -rf lsp
-mv sys-x86_64-linux/subsys.xtsys/package/cores lsp
-rm -rf sys-x86_64-linux

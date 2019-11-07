@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2016 - 2019 Cadence Design Systems Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /dts-v1/;
 
 / {
@@ -12,7 +35,7 @@
 
 	memory@0 {
 		device_type = "memory";
-		reg = <0x00000000 0x10000000>;
+		reg = <0x00000000 0x20000000>;
 	};
 
 	cpus {
@@ -59,7 +82,7 @@
 		interrupts = <15 0>;
 		queue-priority = <7 5 6>;
 		firmware-name = "xrp0.elf";
-		ranges = <0x00000000 0x00000000 0x10000000
+		ranges = <0x00000000 0x00000000 0x20000000
 			  0xcff80000 0x20000000 0x00040000
 			  0xcffc0000 0x20040000 0x00040000
 			  0xd0000000 0x20080000 0x00008000
@@ -82,7 +105,7 @@
 		interrupts = <15 0>;
 		queue-priority = <7 6 5>;
 		firmware-name = "xrp1.elf";
-		ranges = <0x00000000 0x00000000 0x10000000
+		ranges = <0x00000000 0x00000000 0x20000000
 			  0xcff80000 0x200c0000 0x00040000
 			  0xcffc0000 0x20100000 0x00040000
 			  0xd0000000 0x20140000 0x00008000
@@ -105,7 +128,7 @@
 		interrupts = <15 0>;
 		queue-priority = <7 6 5>;
 		firmware-name = "xrp2.elf";
-		ranges = <0x00000000 0x00000000 0x10000000
+		ranges = <0x00000000 0x00000000 0x20000000
 			  0xcff80000 0x20180000 0x00040000
 			  0xcffc0000 0x201c0000 0x00040000
 			  0xd0000000 0x20200000 0x00008000
@@ -128,7 +151,7 @@
 		interrupts = <15 0>;
 		queue-priority = <7 6 5>;
 		firmware-name = "xrp3.elf";
-		ranges = <0x00000000 0x00000000 0x10000000
+		ranges = <0x00000000 0x00000000 0x20000000
 			  0xcff80000 0x20240000 0x00040000
 			  0xcffc0000 0x20280000 0x00040000
 			  0xd0000000 0x202c0000 0x00008000
@@ -137,6 +160,4 @@
 		dsp@0 {
 		};
 	};
-
-
 };

@@ -1967,6 +1967,7 @@ endif
 	source "package/tzdata/Config.in"
 	source "package/uvw/Config.in"
 	source "package/xapian/Config.in"
+	source "package/xrp/Config.in"
 endmenu
 
 menu "Security"
